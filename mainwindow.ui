@@ -227,7 +227,7 @@
         <item row="5" column="0" colspan="3">
          <widget class="QLabel" name="lblregister">
           <property name="text">
-           <string>Registered To:</string>
+           <string>Registered To: email admin@netpipe.ca for register key</string>
           </property>
          </widget>
         </item>
