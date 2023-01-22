@@ -676,9 +676,9 @@ void MainWindow::on_geobutton_clicked()
         ui->lattxt->setText(geo.lat);
           ui->longtxt->setText(geo.lng);
         if (geo.lng.toFloat() < 0 ) {
-
-           float tester = geo.lng.toFloat()*1;
-        ui->longtxt->setText(QString::number(tester));
+qDebug() << "less than";
+           float tester = geo.lng.toFloat()*-1;
+            ui->longtxt->setText(QString::number(tester));
         }
     }
 }
