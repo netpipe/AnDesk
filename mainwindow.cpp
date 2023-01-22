@@ -766,7 +766,8 @@ void MainWindow::showCurrentTime()
     QString str = QString("Current Time: %1:%2:%3").arg(ct.hour()).arg(ct.minute()).arg(ct.second());
     ui->lblCurTime->setText(str);
 
-    //QDateTime utc = QDateTime::currentDateTimeUtc();
+    QDateTime utc = QDateTime::currentDateTimeUtc();
+    qDebug() << utc.isDaylightTime();
     //str = QString("Current Time: %1:%2:%3").arg(utc.time().hour()).arg(utc.time().minute()).arg(utc.time().second());
     //ui->lblCurTime->setText(str);
 }
