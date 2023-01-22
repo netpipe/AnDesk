@@ -229,55 +229,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     loaded=true;
 
-    QFile MyFile3(walltheme);
+    on_cmbwalls_activated("test");
 
-    if(MyFile3.exists()) {
-        MyFile3.open(QIODevice::ReadWrite);
-        QTextStream in (&MyFile3);
-        QString line3;
-        QStringList list3;
-        QRegExp rx("[|]");
-
-        do {
-            line3 = in.readLine();
-            QString stylesheet3;
-            if (line3.contains("|")) {
-                list3 = line3.split(rx);
-                //  qDebug() << "count" <<  list3.at(1).toLatin1();
-                if (list3.at(0).toLatin1() == "count"){
-                    wtcount =  list3.at(1).toInt();
-                } else if ( list3.at(0).toLatin1() == "numname"){
-                    wtnumname =  list3.at(1).toLatin1();
-                } else if ( list3.at(0).toLatin1() == "direction"){
-                    wtbool3 =  list3.at(1).toInt();
-                } else if ( list3.at(0).toLatin1() == "animated"){
-                    wtanimated =  list3.at(1).toInt();
-                } else if ( list3.at(0).toLatin1() == "author"){
-                    wtauthor =  list3.at(1).toLatin1();
-                } else if ( list3.at(0).toLatin1() == "sunrisestart"){
-                    sunrisestart =  list3.at(1).toInt();
-                } else if ( list3.at(0).toLatin1() == "dir"){
-                    wtdir = list3.at(1).toLatin1();
-                    //  qDebug() << "count" <<  list3.at(1).toLatin1();
-                } else if ( list3.at(0).toLatin1() == "extension"){
-                    wtextension =  list3.at(1).toLatin1();
-                }
-
-                MyFile3.close();
-            }
-        } while (!line3.isNull());
-    } else {
-        wtcount = 16;
-        wtnumname = "";
-        wtbool3 = 0;
-        wtanimated = 0;
-        wtauthor = "";
-        sunrisestart = 3;
-        wtdir = "";
-        wtextension = "";
-    }
-
-    show();
+ //   show();
 
     sunrisehour = sunrisestart; // sunset
     QString str;
@@ -660,6 +614,54 @@ void MainWindow::on_cmbwalls_activated(const QString &arg1)
         if (ui->cmbwalls->currentText().toLatin1() != ""){
           //   ui->cmbTheme->currentText().toLatin1();
         }
+    }
+
+    QFile MyFile3(ui->cmbwalls->currentText());
+
+    if(MyFile3.exists()) {
+        MyFile3.open(QIODevice::ReadWrite);
+        QTextStream in (&MyFile3);
+        QString line3;
+        QStringList list3;
+        QRegExp rx("[|]");
+
+        do {
+            line3 = in.readLine();
+            QString stylesheet3;
+            if (line3.contains("|")) {
+                list3 = line3.split(rx);
+                //  qDebug() << "count" <<  list3.at(1).toLatin1();
+                if (list3.at(0).toLatin1() == "count"){
+                    wtcount =  list3.at(1).toInt();
+                } else if ( list3.at(0).toLatin1() == "numname"){
+                    wtnumname =  list3.at(1).toLatin1();
+                } else if ( list3.at(0).toLatin1() == "direction"){
+                    wtbool3 =  list3.at(1).toInt();
+                } else if ( list3.at(0).toLatin1() == "animated"){
+                    wtanimated =  list3.at(1).toInt();
+                } else if ( list3.at(0).toLatin1() == "author"){
+                    wtauthor =  list3.at(1).toLatin1();
+                } else if ( list3.at(0).toLatin1() == "sunrisestart"){
+                    sunrisestart =  list3.at(1).toInt();
+                } else if ( list3.at(0).toLatin1() == "dir"){
+                    wtdir = list3.at(1).toLatin1();
+                    //  qDebug() << "count" <<  list3.at(1).toLatin1();
+                } else if ( list3.at(0).toLatin1() == "extension"){
+                    wtextension =  list3.at(1).toLatin1();
+                }
+
+                MyFile3.close();
+            }
+        } while (!line3.isNull());
+    } else {
+        wtcount = 16;
+        wtnumname = "";
+        wtbool3 = 0;
+        wtanimated = 0;
+        wtauthor = "";
+        sunrisestart = 3;
+        wtdir = "";
+        wtextension = "";
     }
 }
 
