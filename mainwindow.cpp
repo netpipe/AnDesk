@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
     QDir dir(".");
 
     pwd.append( dir.absolutePath() );
+    QDateTime utc = QDateTime::currentDateTimeUtc();
+   // qDebug() << utc.isDaylightTime();
 
    // AppDir = qApp->applicationDirPath();
    // QDir::setCurrent(AppDir);
@@ -234,12 +236,12 @@ MainWindow::MainWindow(QWidget *parent)
         QTextStream in (&MyFile3);
         QString line3;
         QStringList list3;
-        QRegExp rx("[:]");
+        QRegExp rx("[|]");
 
         do {
             line3 = in.readLine();
             QString stylesheet3;
-            if (line3.contains(":")) {
+            if (line3.contains("|")) {
                 list3 = line3.split(rx);
                 //  qDebug() << "count" <<  list3.at(1).toLatin1();
                 if (list3.at(0).toLatin1() == "count"){
@@ -343,8 +345,8 @@ void MainWindow::updateWallpaper()
             if (hour >= prevhouritem && hour <= nexthouritem)
             {
 
-                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "_%1." + wtextension ).arg(i+1);
-qDebug() << filename;
+                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(i+1);
+//qDebug() << filename;
                     QPixmap pix;
                     pix.load(filename);
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
@@ -357,8 +359,8 @@ qDebug() << filename;
             if (hour+24 >= prevhouritem && hour+24 <= nexthouritem)
             {
 
-                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "_%1." + wtextension).arg(i+1);
-qDebug() << filename;
+                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension).arg(i+1);
+//qDebug() << filename;
                     QPixmap pix;
                     pix.load(filename);
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
@@ -766,8 +768,7 @@ void MainWindow::showCurrentTime()
     QString str = QString("Current Time: %1:%2:%3").arg(ct.hour()).arg(ct.minute()).arg(ct.second());
     ui->lblCurTime->setText(str);
 
-    QDateTime utc = QDateTime::currentDateTimeUtc();
-    qDebug() << utc.isDaylightTime();
+
     //str = QString("Current Time: %1:%2:%3").arg(utc.time().hour()).arg(utc.time().minute()).arg(utc.time().second());
     //ui->lblCurTime->setText(str);
 }
