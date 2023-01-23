@@ -11,6 +11,7 @@
 #include <QCloseEvent>
 #include <QSound>
 #include <QStandardItemModel>
+#include <QPainter>
 
 #ifndef __linux__
 #include <Windows.h>
@@ -28,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     QDir dir(".");
+
 
     pwd.append( dir.absolutePath() );
     QDateTime utc = QDateTime::currentDateTimeUtc();
@@ -106,6 +108,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     QPixmap oPixmap(32,32);
     oPixmap.load (pwd.toLatin1() +"/Resource/moon.png");
+
+  //  QPainter painter(&oPixmap);
+  //  painter.drawPixmap(100, 100, oPixmap); // moon position
 
     QIcon oIcon( oPixmap );
 
@@ -288,11 +293,11 @@ void MainWindow::updateWallpaper()
     int hour = ct.hour();
 
     QString filename;
-
+int set;
     for (int i = 1; i < ui->listHour->count(); i ++)
     {
-        int prevhouritem = sunrisehour+(24*(i-1)/16);
-        int nexthouritem = sunrisehour+(24*i/16);
+        int prevhouritem = sunrisehour+(24*(i-1)/wtcount);
+        int nexthouritem = sunrisehour+(24*i/wtcount);
 
         if (nexthouritem < 24)
         {
@@ -300,28 +305,31 @@ void MainWindow::updateWallpaper()
             {
 
                     filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(i+1);
-//qDebug() << filename;
+qDebug() << filename << "testing";
                     QPixmap pix;
                     pix.load(filename);
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
                     ui->lblImg->setPixmap(pix);
-                    ui->listHour->setCurrentRow(i - 2);
+                     set=i;
             }
         }
         else
         {
             if (hour+24 >= prevhouritem && hour+24 <= nexthouritem)
             {
-
                     filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension).arg(i+1);
-//qDebug() << filename;
+qDebug() << filename << "testing2";
                     QPixmap pix;
                     pix.load(filename);
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
                     ui->lblImg->setPixmap(pix);
-                    ui->listHour->setCurrentRow(i - 2);
+
+                   set=i;
             }
         }
+    }
+    if (set!=0){
+           ui->listHour->setCurrentRow(set - 2);
     }
 
     //hourchime  // needs to be in own loop so that it can update per hour instead of skipping
@@ -434,6 +442,15 @@ void MainWindow::on_ListHourItemChanged(QListWidgetItem* item)
     QPixmap pix;
     pix.load(filename);
     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
+
+    QPixmap oPixmap(32,32);
+    oPixmap.load (pwd.toLatin1() +"/Resource/moon.png");
+//pix.scaled(0.5, Qt::KeepAspectRatio);
+
+    QPainter painter(&pix);
+    painter.drawPixmap(10, 10, oPixmap); // moon position
+pix.save("./test.png");
+
     ui->lblImg->setPixmap(pix);
 }
 
@@ -676,7 +693,6 @@ void MainWindow::on_geobutton_clicked()
         ui->lattxt->setText(geo.lat);
           ui->longtxt->setText(geo.lng);
         if (geo.lng.toFloat() < 0 ) {
-qDebug() << "less than";
            float tester = geo.lng.toFloat()*-1;
             ui->longtxt->setText(QString::number(tester));
         }
