@@ -234,11 +234,11 @@ MainWindow::MainWindow(QWidget *parent)
 
  //   show();
 
-    sunrisehour = sunrisestart; // sunset
+    sunrisehour = 0; // sunset
     QString str;
     str = QString("%1:00").arg(sunrisehour); //risehour +i
 
-    for (int i = 1; i < wtcount; i ++)
+    for (int i = 0; i < wtcount; i ++)
     {
         int frames = 24*i/wtcount;
 
@@ -250,11 +250,11 @@ MainWindow::MainWindow(QWidget *parent)
         ui->listHour->insertItem(i, str);
     }
 
-    if (ui->listHour->count() > 0)
-    {
-        str = QString("%1:00 (+24h)").arg(sunrisehour);
-        ui->listHour->insertItem(ui->listHour->count(), str);
-    }
+//    if (ui->listHour->count() > 0)
+//    {
+//        str = QString("%1:00 (+24h)").arg(sunrisehour);
+//        ui->listHour->insertItem(ui->listHour->count(), str);
+//    }
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWallpaper);
@@ -290,38 +290,57 @@ void MainWindow::updateWallpaper()
 
     QString filename;
 int set;
+
+//hour
     for (int i = 1; i < ui->listHour->count(); i ++)
     {
-        int prevhouritem = sunrisehour+(24*(i-1)/wtcount);
-        int nexthouritem = sunrisehour+(24*i/wtcount);
+//        int prevhouritem = i-1;//sunrisehour
+//        int nexthouritem = i;
 
-        if (nexthouritem < 24)
-        {
-            if (hour >= prevhouritem && hour <= nexthouritem)
+
+            int picked;
+            sunrisehour = 0; // sunset
+            QString str;
+            str = QString("%1:00").arg(sunrisehour); //risehour +i
+
+            for (int i = 0; i < wtcount; i ++)
             {
 
-                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(i+1);
+                int frames = 24*i/wtcount;
+                    str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
+            //    ui->listHour->insertItem(i, str);
+                if (hour==sunrisehour+frames)
+                  picked=i;
+            }
+            if (picked)
+            {
+
+      //      if (i >= prevhouritem && i <= nexthouritem)
+       //     {
+//sunrisehour+(24*(i-2)/wtcount);
+                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(picked+1);
 //qDebug() << filename << "testing";
                     QPixmap pix;
                     pix.load(filename);
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
                     ui->lblImg->setPixmap(pix);
-                    ui->listHour->setCurrentRow(i - 2);
+                    ui->listHour->setCurrentRow(picked);
+
             }
-        }
-        else
-        {
-            if (hour+24 >= prevhouritem+1 && hour+24 <= nexthouritem)
-            {
-                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension).arg(i+1);
+     //   }
+//        else
+//        {
+//            if (hour+24 >= prevhouritem && hour+24 <= nexthouritem)
+//            {
+//                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension).arg(i+1);
 //qDebug() << filename << "testing2" << i << prevhouritem << " " << hour ;
-                    QPixmap pix;
-                    pix.load(filename);
-                    pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
-                    ui->lblImg->setPixmap(pix);
-ui->listHour->setCurrentRow(i - 2);
-            }
-        }
+//                    QPixmap pix;
+//                    pix.load(filename);
+//                    pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
+//                    ui->lblImg->setPixmap(pix);
+//ui->listHour->setCurrentRow(i - 2);
+//            }
+//        }
     }
 
     //hourchime  // needs to be in own loop so that it can update per hour instead of skipping
@@ -410,8 +429,8 @@ void MainWindow::on_wallpaperButton_clicked()
     #else
         QString Test;
         Test +=  "dconf write /org/mate/desktop/background/picture-filename ";
-if (1){
-  //  if (ui->sunimatechk->isChecked()){
+//if (1){
+    if (!ui->sunimatechk->isChecked()){
                 if (15-row + 2 < wtcount){
             Test +=   QString("\\\"" +pwd.toLatin1() + "/themes/" + wtdir.toLatin1() + "/"+ wtnumname.toLatin1() + "%1."+ wtextension +"\\\"").arg(15-row + 1);
         }else
