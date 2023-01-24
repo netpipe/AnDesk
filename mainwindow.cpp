@@ -258,7 +258,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWallpaper);
-    timer->start(100000);
+    timer->start(1000000);
 
     QString dbpath = pwd.toLatin1() + "/Database/worldcities.db";
     db.openSqliteDatabase(dbpath);
@@ -298,20 +298,21 @@ str = QString("%1:00").arg(sunrisehour); //risehour +i
 for (int i = 0; i < wtcount; i ++)
 {
     int frames = 24*i/wtcount;
-    str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
-    if (hour==sunrisehour+frames-24){
+  //  str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
+    if (hour==sunrisehour+frames-24||hour==sunrisehour+frames-23||hour==sunrisehour+frames-22||hour==sunrisehour+frames-21){
       picked=i;
-  //  qDebug()<< "picked";
+    qDebug()<< "picked";
     }
+
 }
 
 //hour
-    for (int i = 1; i < ui->listHour->count(); i ++)
-    {
+//    for (int i = 1; i < ui->listHour->count(); i ++)
+//    {
 //        int prevhouritem = i-1;//sunrisehour
 //        int nexthouritem = i;
 
-            if (i==picked)
+            if (picked!=0)
             {
                     filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(picked+1);
 //qDebug() << filename << "testing";
@@ -319,11 +320,11 @@ for (int i = 0; i < wtcount; i ++)
                     pix.load(filename);
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
                     ui->lblImg->setPixmap(pix);
-                    ui->listHour->setCurrentRow(picked);
+             //       ui->listHour->setCurrentRow(picked);
             }
-        }
+   //     }
   //  }
-
+ ui->listHour->setCurrentRow(picked);
 
     //hourchime  // needs to be in own loop so that it can update per hour instead of skipping
     if (ui->hchimechk->isChecked()){
@@ -446,7 +447,7 @@ void MainWindow::on_ListHourItemChanged(QListWidgetItem* item)
     QPixmap pix;
     pix.load(filename);
     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
-
+    if (!ui->sunimatechk->isChecked()){
     QPixmap oPixmap(32,32);
     oPixmap.load (pwd.toLatin1() +"/Resource/moon.png");
 oPixmap.scaled(10, Qt::KeepAspectRatio);
@@ -465,7 +466,7 @@ oPixmap.scaled(10, Qt::KeepAspectRatio);
         painter.drawPixmap(topPortion, oPixmap.scaled(topPortion.size(), Qt::KeepAspectRatio, Qt::FastTransformation));//Issue
    // painter.drawPixmap(10, 10, oPixmap); // moon position
 pix.save("./test.png");
-
+    }
 
     ui->lblImg->setPixmap(pix);
 }
