@@ -234,7 +234,7 @@ MainWindow::MainWindow(QWidget *parent)
 
  //   show();
 
-    sunrisehour = 0; // sunset
+    sunrisehour = sunrisestart; // sunset
     QString str;
     str = QString("%1:00").arg(sunrisehour); //risehour +i
 
@@ -292,7 +292,6 @@ void MainWindow::updateWallpaper()
 int set;
 
 int picked;
-sunrisehour = 0; // sunset
 QString str;
 str = QString("%1:00").arg(sunrisehour); //risehour +i
 
@@ -302,8 +301,10 @@ for (int i = 0; i < wtcount; i ++)
     int frames = 24*i/wtcount;
         str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
 //    ui->listHour->insertItem(i, str);
-    if (hour==sunrisehour+frames)
+        qDebug()<<str  ;
+    if (hour==sunrisehour+frames-24){
       picked=i;
+    qDebug()<< "picked";}
 }
 
 //hour
