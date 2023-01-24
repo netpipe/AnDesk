@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>603</width>
-    <height>519</height>
+    <height>547</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="1" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>1</number>
@@ -39,6 +39,7 @@
            <property name="font">
             <font>
              <pointsize>11</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -52,6 +53,7 @@
            <property name="font">
             <font>
              <pointsize>11</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -65,6 +67,7 @@
            <property name="font">
             <font>
              <pointsize>11</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -78,6 +81,7 @@
            <property name="font">
             <font>
              <pointsize>11</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -91,6 +95,7 @@
            <property name="font">
             <font>
              <pointsize>11</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -104,6 +109,7 @@
            <property name="font">
             <font>
              <pointsize>11</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -116,6 +122,7 @@
           <widget class="QLabel" name="moon">
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -183,6 +190,7 @@
         <property name="font">
          <font>
           <pointsize>11</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -199,6 +207,20 @@
         <string>Settings</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
+        <item row="7" column="1">
+         <widget class="QPushButton" name="saveButton">
+          <property name="text">
+           <string>save</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" colspan="3">
+         <widget class="QLabel" name="lblregister">
+          <property name="text">
+           <string>Registered To: email admin@netpipe.ca to purchase &amp; get more themes</string>
+          </property>
+         </widget>
+        </item>
         <item row="4" column="0">
          <widget class="QLabel" name="label_7">
           <property name="text">
@@ -206,28 +228,14 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
-         <widget class="QLineEdit" name="serialtxt"/>
-        </item>
         <item row="4" column="1" colspan="2">
          <widget class="QComboBox" name="cmbTheme"/>
         </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>serialNumber</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0" colspan="3">
-         <widget class="QLabel" name="lblregister">
-          <property name="text">
-           <string>Registered To:</string>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="1" colspan="2">
          <widget class="QComboBox" name="cmbwalls"/>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLineEdit" name="serialtxt"/>
         </item>
         <item row="2" column="1">
          <widget class="QLabel" name="label_8">
@@ -243,26 +251,12 @@
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
-         <widget class="QPushButton" name="saveButton">
-          <property name="text">
-           <string>save</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0" rowspan="2" colspan="2">
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
            <string>Settings</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="5" column="0" colspan="2">
-            <widget class="QCheckBox" name="hchimechk">
-             <property name="text">
-              <string>HourChime</string>
-             </property>
-            </widget>
-           </item>
            <item row="4" column="2">
             <widget class="QComboBox" name="comboBox">
              <property name="maxVisibleItems">
@@ -310,52 +304,10 @@
              </item>
             </widget>
            </item>
-           <item row="6" column="0" colspan="2">
-            <widget class="QCheckBox" name="tockchk">
-             <property name="text">
-              <string>TickTock Noise</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Longitude</string>
-             </property>
-            </widget>
-           </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label">
              <property name="text">
               <string>Latitude</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Timezone</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QLineEdit" name="tztxt">
-             <property name="text">
-              <string>7</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="longtxt">
-             <property name="text">
-              <string>110</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lattxt">
-             <property name="text">
-              <string>51</string>
              </property>
             </widget>
            </item>
@@ -401,7 +353,70 @@
              </item>
             </layout>
            </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Timezone</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="lattxt">
+             <property name="text">
+              <string>51</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="tztxt">
+             <property name="text">
+              <string>7</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0" colspan="2">
+            <widget class="QCheckBox" name="tockchk">
+             <property name="text">
+              <string>TickTock Noise</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Longitude</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="2">
+            <widget class="QCheckBox" name="hchimechk">
+             <property name="text">
+              <string>HourChime</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="longtxt">
+             <property name="text">
+              <string>110</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="2">
+            <widget class="QCheckBox" name="sunimatechk">
+             <property name="text">
+              <string>Sunimate Walls</string>
+             </property>
+            </widget>
+           </item>
           </layout>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>serialNumber</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -416,7 +431,7 @@
      <x>0</x>
      <y>0</y>
      <width>603</width>
-     <height>22</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuExit">

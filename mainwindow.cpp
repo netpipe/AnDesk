@@ -18,10 +18,9 @@
 #endif
 
 //todo
-//dst checker / timezone config gui
-//animated sun and moon on regular wallpapers
 //animation of gifs or regular imagesets
-  QString pwd("");
+QString pwd;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -108,9 +107,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     QPixmap oPixmap(32,32);
     oPixmap.load (pwd.toLatin1() +"/Resource/moon.png");
-
-  //  QPainter painter(&oPixmap);
-  //  painter.drawPixmap(100, 100, oPixmap); // moon position
 
     QIcon oIcon( oPixmap );
 
@@ -305,31 +301,27 @@ int set;
             {
 
                     filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(i+1);
-qDebug() << filename << "testing";
+//qDebug() << filename << "testing";
                     QPixmap pix;
                     pix.load(filename);
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
                     ui->lblImg->setPixmap(pix);
-                     set=i;
+                    ui->listHour->setCurrentRow(i - 2);
             }
         }
         else
         {
-            if (hour+24 >= prevhouritem && hour+24 <= nexthouritem)
+            if (hour+24 >= prevhouritem+1 && hour+24 <= nexthouritem)
             {
                     filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension).arg(i+1);
-qDebug() << filename << "testing2";
+//qDebug() << filename << "testing2" << i << prevhouritem << " " << hour ;
                     QPixmap pix;
                     pix.load(filename);
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
                     ui->lblImg->setPixmap(pix);
-
-                   set=i;
+ui->listHour->setCurrentRow(i - 2);
             }
         }
-    }
-    if (set!=0){
-           ui->listHour->setCurrentRow(set - 2);
     }
 
     //hourchime  // needs to be in own loop so that it can update per hour instead of skipping
@@ -418,15 +410,26 @@ void MainWindow::on_wallpaperButton_clicked()
     #else
         QString Test;
         Test +=  "dconf write /org/mate/desktop/background/picture-filename ";
-        if (15-row + 2 < wtcount){
+if (1){
+  //  if (ui->sunimatechk->isChecked()){
+                if (15-row + 2 < wtcount){
             Test +=   QString("\\\"" +pwd.toLatin1() + "/themes/" + wtdir.toLatin1() + "/"+ wtnumname.toLatin1() + "%1."+ wtextension +"\\\"").arg(15-row + 1);
         }else
         {
             Test +=   QString("\\\"" +pwd.toLatin1() + "/themes/" + wtdir.toLatin1() + "/"+ wtnumname.toLatin1() + "%1." + wtextension +"\\\"").arg(wtcount);
         }
+}else{
+        if (15-row + 2 < wtcount){
+            Test +=   QString("\\\"" +pwd.toLatin1() + "/" + "test.png" + "\\\"").arg(15-row + 1);
+        }else
+        {
+            Test +=   QString("\\\"" +pwd.toLatin1() + "/" + "test.png" + "\\\"").arg(wtcount);
+        }
+ }
         qDebug() << Test.toLatin1();
         QProcess::execute("bash", QStringList() << "-c" << Test.toLatin1() );
     #endif
+
 }
 
 void MainWindow::on_ListHourItemChanged(QListWidgetItem* item)
@@ -445,11 +448,23 @@ void MainWindow::on_ListHourItemChanged(QListWidgetItem* item)
 
     QPixmap oPixmap(32,32);
     oPixmap.load (pwd.toLatin1() +"/Resource/moon.png");
-//pix.scaled(0.5, Qt::KeepAspectRatio);
-
+oPixmap.scaled(10, Qt::KeepAspectRatio);
+   QRect topPortion = QRect(QPoint(0, 0), QSize(width()/10, (height()/10)*1));
     QPainter painter(&pix);
-    painter.drawPixmap(10, 10, oPixmap); // moon position
+
+    //https://itecnote.com/tecnote/qt-how-to-add-an-image-on-the-top-of-another-image/
+//    QPixmap result(pix.width(), pix.height());
+//    result.fill(Qt::transparent); // force alpha channel
+//    {
+//        QPainter painter(&result);
+//        painter.drawPixmap(0, 0, pix);
+//        painter.drawPixmap(1, 1, oPixmap);
+//    }
+
+        painter.drawPixmap(topPortion, oPixmap.scaled(topPortion.size(), Qt::KeepAspectRatio, Qt::FastTransformation));//Issue
+   // painter.drawPixmap(10, 10, oPixmap); // moon position
 pix.save("./test.png");
+
 
     ui->lblImg->setPixmap(pix);
 }
@@ -631,6 +646,9 @@ void MainWindow::on_cmbwalls_activated(const QString &arg1)
         if (ui->cmbwalls->currentText().toLatin1() != ""){
           //   ui->cmbTheme->currentText().toLatin1();
         }
+
+
+
     }
 
     QFile MyFile3(ui->cmbwalls->currentText());
@@ -680,6 +698,33 @@ void MainWindow::on_cmbwalls_activated(const QString &arg1)
         wtdir = "";
         wtextension = "";
     }
+
+//    if (loaded){
+// // ui->listHour->clear();
+
+//  // qDeleteAll(ui->listHour->selectedItems());
+//    QString str;
+//    str = QString("%1:00").arg(sunrisehour); //risehour +i
+
+//    for (int i = 1; i < wtcount; i ++)
+//    {
+//        int frames = 24*i/wtcount;
+
+//        if (sunrisehour+frames < 24)
+//            str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
+//        else
+//           str = QString("%1:00 (+24h)").arg(sunrisehour+frames-24); //risehour +i
+
+//        ui->listHour->insertItem(i, str);
+//    }
+
+//    if (ui->listHour->count() > 0)
+//    {
+//        str = QString("%1:00 (+24h)").arg(sunrisehour);
+//        ui->listHour->insertItem(ui->listHour->count(), str);
+//    }
+//    }
+
 }
 
 void MainWindow::on_geobutton_clicked()
