@@ -291,6 +291,21 @@ void MainWindow::updateWallpaper()
     QString filename;
 int set;
 
+int picked;
+sunrisehour = 0; // sunset
+QString str;
+str = QString("%1:00").arg(sunrisehour); //risehour +i
+
+for (int i = 0; i < wtcount; i ++)
+{
+
+    int frames = 24*i/wtcount;
+        str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
+//    ui->listHour->insertItem(i, str);
+    if (hour==sunrisehour+frames)
+      picked=i;
+}
+
 //hour
     for (int i = 1; i < ui->listHour->count(); i ++)
     {
@@ -298,21 +313,8 @@ int set;
 //        int nexthouritem = i;
 
 
-            int picked;
-            sunrisehour = 0; // sunset
-            QString str;
-            str = QString("%1:00").arg(sunrisehour); //risehour +i
 
-            for (int i = 0; i < wtcount; i ++)
-            {
-
-                int frames = 24*i/wtcount;
-                    str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
-            //    ui->listHour->insertItem(i, str);
-                if (hour==sunrisehour+frames)
-                  picked=i;
-            }
-            if (picked)
+            if (i==picked)
             {
 
       //      if (i >= prevhouritem && i <= nexthouritem)
