@@ -297,14 +297,12 @@ str = QString("%1:00").arg(sunrisehour); //risehour +i
 
 for (int i = 0; i < wtcount; i ++)
 {
-
     int frames = 24*i/wtcount;
-        str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
-//    ui->listHour->insertItem(i, str);
-        qDebug()<<str  ;
+    str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
     if (hour==sunrisehour+frames-24){
       picked=i;
-    qDebug()<< "picked";}
+  //  qDebug()<< "picked";
+    }
 }
 
 //hour
@@ -313,14 +311,8 @@ for (int i = 0; i < wtcount; i ++)
 //        int prevhouritem = i-1;//sunrisehour
 //        int nexthouritem = i;
 
-
-
             if (i==picked)
             {
-
-      //      if (i >= prevhouritem && i <= nexthouritem)
-       //     {
-//sunrisehour+(24*(i-2)/wtcount);
                     filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(picked+1);
 //qDebug() << filename << "testing";
                     QPixmap pix;
@@ -328,23 +320,10 @@ for (int i = 0; i < wtcount; i ++)
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
                     ui->lblImg->setPixmap(pix);
                     ui->listHour->setCurrentRow(picked);
-
             }
-     //   }
-//        else
-//        {
-//            if (hour+24 >= prevhouritem && hour+24 <= nexthouritem)
-//            {
-//                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension).arg(i+1);
-//qDebug() << filename << "testing2" << i << prevhouritem << " " << hour ;
-//                    QPixmap pix;
-//                    pix.load(filename);
-//                    pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
-//                    ui->lblImg->setPixmap(pix);
-//ui->listHour->setCurrentRow(i - 2);
-//            }
-//        }
-    }
+        }
+  //  }
+
 
     //hourchime  // needs to be in own loop so that it can update per hour instead of skipping
     if (ui->hchimechk->isChecked()){
