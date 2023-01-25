@@ -55,12 +55,13 @@ public:
     QString walltheme;
     QString wtdir;
     QString wtextension;
+    QString wtdelay;
 
     int sunrisestart;
 
     QCompleter*     compCountry;
     QCompleter*     compCity;
-
+    void clear2();
 private:
     void GetSunriseAndset();
     void initCountryCompleter();

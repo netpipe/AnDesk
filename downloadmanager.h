@@ -29,6 +29,7 @@ public:
         int Upload(QString URL,QString User,QString Password,QString port,QString filePath);
         void Download(QString URL);
 
+
 public slots:
     void execute();
     void downloadFinished(QNetworkReply *reply);

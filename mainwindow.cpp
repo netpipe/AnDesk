@@ -227,10 +227,10 @@ MainWindow::MainWindow(QWidget *parent)
             MyFile2.close();
         }
     }
-
+    on_cmbwalls_activated("test");
     loaded=true;
 
-    on_cmbwalls_activated("test");
+
 
  //   show();
 
@@ -268,6 +268,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     loaded=true;
     updateWallpaper();
+    clear2();
 }
 
 #ifndef __linux__ || __apple__
@@ -398,7 +399,7 @@ void MainWindow::on_wallpaperButton_clicked()
     QString filename;
 
     #ifndef __linux__
-   filename =  pwd.toLatin1()+ "/themes/" + wtdir.toLatin1() + "/"+ wtnumname.toLatin1() + QString::number(row+1) +"." + wtextension;
+   filename =  pwd.toLatin1()+ "/themes/" + wtdir.toLatin1() + "/"+ wtnumname.toLatin1() + QString::number(wtcount-1-row+1) +"." + wtextension;
    // qDebug() << "set" << row << " test " << filename;
      //   filename = QString("C:\\Wallpaper\\mojave_dynamic_%1").arg(row + 1);
         setwallpaper(filename);
@@ -406,7 +407,7 @@ void MainWindow::on_wallpaperButton_clicked()
     #elif __apple__
         QString Test;
         Test +=  "wallpaper ";
-        Test +=   QString("\\\"" + pwd.toLatin1() + "/mojave_dynamic/mojave_dynamic_%1.jpeg\\\"").arg(15-row + 1);
+        Test +=   QString("\\\"" + pwd.toLatin1() + "/mojave_dynamic/mojave_dynamic_%1.jpeg\\\"").arg(wtcount-1-row + 1);
         qDebug() << Test.toLatin1();
         QProcess::execute("bash", QStringList() << "-c" << Test.toLatin1() );
     #else
@@ -414,15 +415,15 @@ void MainWindow::on_wallpaperButton_clicked()
         Test +=  "dconf write /org/mate/desktop/background/picture-filename ";
 //if (1){
     if (!ui->sunimatechk->isChecked()){
-                if (15-row + 2 < wtcount){
-            Test +=   QString("\\\"" +pwd.toLatin1() + "/themes/" + wtdir.toLatin1() + "/"+ wtnumname.toLatin1() + "%1."+ wtextension +"\\\"").arg(15-row + 1);
+                if (wtcount-1-row +1  < wtcount){
+            Test +=   QString("\\\"" +pwd.toLatin1() + "/themes/" + wtdir.toLatin1() + "/"+ wtnumname.toLatin1() + "%1."+ wtextension +"\\\"").arg(wtcount-1-row + 1);
         }else
         {
             Test +=   QString("\\\"" +pwd.toLatin1() + "/themes/" + wtdir.toLatin1() + "/"+ wtnumname.toLatin1() + "%1." + wtextension +"\\\"").arg(wtcount);
         }
 }else{
-        if (15-row + 2 < wtcount){
-            Test +=   QString("\\\"" +pwd.toLatin1() + "/" + "test.png" + "\\\"").arg(15-row + 1);
+        if (wtcount-1-row + 1 < wtcount){
+            Test +=   QString("\\\"" +pwd.toLatin1() + "/" + "test.png" + "\\\"").arg(wtcount-1-row + 1);
         }else
         {
             Test +=   QString("\\\"" +pwd.toLatin1() + "/" + "test.png" + "\\\"").arg(wtcount);
@@ -447,7 +448,7 @@ void MainWindow::on_ListHourItemChanged(QListWidgetItem* item)
     QPixmap pix;
     pix.load(filename);
     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
-    if (!ui->sunimatechk->isChecked()){
+    if (ui->sunimatechk->isChecked()){
     QPixmap oPixmap(32,32);
     oPixmap.load (pwd.toLatin1() +"/Resource/moon.png");
 oPixmap.scaled(10, Qt::KeepAspectRatio);
@@ -685,6 +686,8 @@ void MainWindow::on_cmbwalls_activated(const QString &arg1)
                     //  qDebug() << "count" <<  list3.at(1).toLatin1();
                 } else if ( list3.at(0).toLatin1() == "extension"){
                     wtextension =  list3.at(1).toLatin1();
+                }else if ( list3.at(0).toLatin1() == "delay"){
+                    wtdelay =  list3.at(1).toLatin1();
                 }
 
                 MyFile3.close();
@@ -701,34 +704,43 @@ void MainWindow::on_cmbwalls_activated(const QString &arg1)
         wtextension = "";
     }
 
-//    if (loaded){
-// // ui->listHour->clear();
-
-//  // qDeleteAll(ui->listHour->selectedItems());
-//    QString str;
-//    str = QString("%1:00").arg(sunrisehour); //risehour +i
-
-//    for (int i = 1; i < wtcount; i ++)
-//    {
-//        int frames = 24*i/wtcount;
-
-//        if (sunrisehour+frames < 24)
-//            str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
-//        else
-//           str = QString("%1:00 (+24h)").arg(sunrisehour+frames-24); //risehour +i
-
-//        ui->listHour->insertItem(i, str);
-//    }
-
-//    if (ui->listHour->count() > 0)
-//    {
-//        str = QString("%1:00 (+24h)").arg(sunrisehour);
-//        ui->listHour->insertItem(ui->listHour->count(), str);
-//    }
-//    }
+    clear2();
+//  while( ui->listHour->count()>0)
+//  {
+//      ui->listHour->takeItem(0);
+//  }
 
 }
 
+void MainWindow::clear2(){
+if (loaded){
+    while( ui->listHour->count()>0)
+    {
+        ui->listHour->takeItem(0);
+    }
+
+//loaded=false;
+    //        for (int i = 1; i < wtcount; i ++)
+    //        { ui->listHour->takeItem(0);
+//}
+
+        QString str;
+        str = QString("%1:00").arg(sunrisehour); //risehour +i
+
+        for (int i = 0; i < wtcount; i ++)
+        {
+            int frames = 24*i/wtcount;
+
+            if (sunrisehour+frames < 24)
+                str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
+            else
+               str = QString("%1:00 (+24h)").arg(sunrisehour+frames-24); //risehour +i
+
+            ui->listHour->insertItem(i, str);
+        }
+    //    loaded=true;
+}
+}
 void MainWindow::on_geobutton_clicked()
 {
     QString country = ui->cmbCountry->currentText();
