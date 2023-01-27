@@ -238,7 +238,7 @@ MainWindow::MainWindow(QWidget *parent)
     QString str;
     str = QString("%1:00").arg(sunrisehour); //risehour +i
 
-    for (int i = 0; i < wtcount; i ++)
+    for (int i = 1; i < wtcount; i ++)
     {
         int frames = 24*i/wtcount;
 
@@ -258,7 +258,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWallpaper);
-    timer->start(1000000);
+    timer->start(10000);
 
     QString dbpath = pwd.toLatin1() + "/Database/worldcities.db";
     db.openSqliteDatabase(dbpath);
@@ -282,7 +282,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+int picked;
 void MainWindow::updateWallpaper()
 {
     QTime ct = QTime::currentTime();
@@ -292,21 +292,22 @@ void MainWindow::updateWallpaper()
     QString filename;
 int set;
 
-int picked;
+
 QString str;
 str = QString("%1:00").arg(sunrisehour); //risehour +i
 
-for (int i = 0; i < wtcount; i ++)
+for (int i = 1; i < wtcount; i ++)
 {
     int frames = 24*i/wtcount;
   //  str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
-    if (hour==sunrisehour+frames-24||hour==sunrisehour+frames-23||hour==sunrisehour+frames-22||hour==sunrisehour+frames-21){
+    //||hour==sunrisehour+frames-22||hour==sunrisehour+frames-21
+    if (hour==sunrisehour+frames-24||hour==sunrisehour+frames-23){
       picked=i;
     qDebug()<< "picked";
     }
 
 }
-
+ // qDebug()<< hour;
 //hour
 //    for (int i = 1; i < ui->listHour->count(); i ++)
 //    {
@@ -321,11 +322,24 @@ for (int i = 0; i < wtcount; i ++)
                     pix.load(filename);
                     pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
                     ui->lblImg->setPixmap(pix);
-             //       ui->listHour->setCurrentRow(picked);
+                    ui->listHour->setCurrentRow(picked);
             }
+
+            else if(hour==sunrisehour+2 || hour == sunrisehour+1){
+                filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(picked+1);
+//qDebug() << filename << "testing";
+                QPixmap pix;
+                pix.load(filename);
+                pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
+                ui->lblImg->setPixmap(pix);
+                ui->listHour->setCurrentRow(1);
+
+
+            }
+       //        qDebug() << sunrisehour+2;
    //     }
   //  }
- ui->listHour->setCurrentRow(picked);
+ //ui->listHour->setCurrentRow(picked);
 
     //hourchime  // needs to be in own loop so that it can update per hour instead of skipping
     if (ui->hchimechk->isChecked()){
