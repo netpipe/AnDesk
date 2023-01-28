@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
             line = in.readLine();
             searchString=":";
             if (line.contains(searchString)) { //, Qt::CaseSensitive
-                QRegExp rx("[:]");// match a comma or a space
+                QRegularExpression rx("[:]");// match a comma or a space
                 list = line.split(rx);
                 nums.append(list.at(1).toLatin1());
             }
@@ -87,7 +87,7 @@ MainWindow::MainWindow(QWidget *parent)
     QString searchString("|");
 
     if (line.contains(searchString)) { //, Qt::CaseSensitive
-        QRegExp rx("[|]");// match a comma or a space
+        QRegularExpression rx("[|]");// match a comma or a space
         list = line.split(rx);
         qDebug() << list.at(0).toLatin1();
 
@@ -188,7 +188,7 @@ MainWindow::MainWindow(QWidget *parent)
         QStringList list;
         //   QList<QString> nums;
         QStringList nums;
-        QRegExp rx("[|]");
+        QRegularExpression rx("[|]");
         line = in.readLine();
         QString stylesheet;
 
@@ -216,7 +216,7 @@ MainWindow::MainWindow(QWidget *parent)
         QTextStream in (&MyFile2);
         QString line2;
         QStringList list2;
-        QRegExp rx("[|]");
+        QRegularExpression rx("[|]");
         line2 = in.readLine();
 
         if (line2.contains("|")) {
@@ -310,7 +310,7 @@ for (int i = 0; i < wtcount-1; i ++)
 
      line = test;
      if (line.contains(":")) { //, Qt::CaseSensitive
-         QRegExp rx("[:]");// match a comma or a space
+         QRegularExpression rx("[:]");// match a comma or a space
          list = line.split(rx);
 }
 //   //  qDebug() << list.at(0).toInt();
@@ -677,7 +677,7 @@ void MainWindow::on_cmbwalls_activated(const QString &arg1)
         QTextStream in (&MyFile3);
         QString line3;
         QStringList list3;
-        QRegExp rx("[|]");
+        QRegularExpression rx("[|]");
 
         do {
             line3 = in.readLine();
@@ -843,10 +843,10 @@ void MainWindow::GetSunriseAndset()
     ui->lblSetTime->setText(getTimeFromSunValue(sunset));
 
     // sunrisehour = (int)sunrise / 60;
-    if (QString::number(sun.moonPhase())==14) {
+    if (sun.moonPhase()==14) {
         ui->moon->setText("full moon"); // 14 is full moon 0 is hidden .  0 - 29 .   >14 is waning < is waxing
     }
-    else if (QString::number(sun.moonPhase()) > 14){
+    else if (sun.moonPhase() > 14){
         ui->moon->setText(QString::number(sun.moonPhase())+" waning");
     }
     else {
