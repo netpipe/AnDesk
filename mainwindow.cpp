@@ -282,7 +282,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-int picked;
+int picked=-1;
 void MainWindow::updateWallpaper()
 {
     QTime ct = QTime::currentTime();
@@ -296,50 +296,52 @@ int set;
 QString str;
 str = QString("%1:00").arg(sunrisehour); //risehour +i
 
-for (int i = 1; i < wtcount; i ++)
+for (int i = 0; i < wtcount-1; i ++)
 {
-    int frames = 24*i/wtcount;
-  //  str = QString("%1:00").arg(sunrisehour+frames); //risehour +i
-    //||hour==sunrisehour+frames-22||hour==sunrisehour+frames-21
-    if (hour==sunrisehour+frames-24||hour==sunrisehour+frames-23){
-      picked=i;
-    qDebug()<< "picked";
+  //  int frames = 24*i/wtcount;
+   // int nextframes = 24*(i+1)/wtcount;
+
+    //if (hour==sunrisehour+frames-24||hour==sunrisehour+frames-23){
+ //   if (hour >= sunrisehour+frames && hour<sunrisehour+nextframes){
+ QString test = ui->listHour->item(i)->text();
+
+ QString line;
+ QStringList list;
+
+     line = test;
+     if (line.contains(":")) { //, Qt::CaseSensitive
+         QRegExp rx("[:]");// match a comma or a space
+         list = line.split(rx);
+}
+//   //  qDebug() << list.at(0).toInt();
+//    //  qDebug() <<hour;
+
+
+
+    if (hour == list.at(0).toInt() || hour == list.at(0).toInt()-1|| hour == list.at(0).toInt()-2){
+        picked=i;
+          qDebug() <<"picked" << i;
+    }
+}
+
+    if (picked!=-1)
+    {
+        filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(picked+1);
+        QPixmap pix;
+        pix.load(filename);
+        pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
+        ui->lblImg->setPixmap(pix);
+        ui->listHour->setCurrentRow(picked);
     }
 
-}
- // qDebug()<< hour;
-//hour
-//    for (int i = 1; i < ui->listHour->count(); i ++)
-//    {
-//        int prevhouritem = i-1;//sunrisehour
-//        int nexthouritem = i;
-
-            if (picked!=0)
-            {
-                    filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(picked+1);
-//qDebug() << filename << "testing";
-                    QPixmap pix;
-                    pix.load(filename);
-                    pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
-                    ui->lblImg->setPixmap(pix);
-                    ui->listHour->setCurrentRow(picked);
-            }
-
-            else if(hour==sunrisehour+2 || hour == sunrisehour+1){
-                filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(picked+1);
-//qDebug() << filename << "testing";
-                QPixmap pix;
-                pix.load(filename);
-                pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
-                ui->lblImg->setPixmap(pix);
-                ui->listHour->setCurrentRow(1);
-
-
-            }
-       //        qDebug() << sunrisehour+2;
-   //     }
-  //  }
- //ui->listHour->setCurrentRow(picked);
+//    else if(hour==sunrisehour+2 || hour == sunrisehour+1){
+//        filename +=   QString( pwd.toLatin1() + "/themes/" + wtdir + "/"+wtnumname + "%1." + wtextension ).arg(picked+1);
+//        QPixmap pix;
+//        pix.load(filename);
+//        pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
+//        ui->lblImg->setPixmap(pix);
+//        ui->listHour->setCurrentRow(1);
+//    }
 
     //hourchime  // needs to be in own loop so that it can update per hour instead of skipping
     if (ui->hchimechk->isChecked()){
