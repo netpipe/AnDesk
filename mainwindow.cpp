@@ -9,7 +9,7 @@
 #include <QDirIterator>
 #include <QCryptographicHash>
 #include <QCloseEvent>
-#include <QSound>
+//#include <QSound>
 #include <QStandardItemModel>
 #include <QPainter>
 
@@ -17,8 +17,11 @@
 #include <Windows.h>
 #endif
 
+#define endl "/n"
+
 //todo
 //animation of gifs or regular imagesets
+//%WinDir%\System32\atig6pxx.dll.bak
 QString pwd;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -345,7 +348,7 @@ for (int i = 0; i < wtcount-1; i ++)
 
     //hourchime  // needs to be in own loop so that it can update per hour instead of skipping
     if (ui->hchimechk->isChecked()){
-        QSound::play(AppDir.toLatin1() + "/Resource/chime.mp3");
+  //      QSound::play(AppDir.toLatin1() + "/Resource/chime.mp3");
     }
 
     showCurrentTime();
