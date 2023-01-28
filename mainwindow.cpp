@@ -331,7 +331,7 @@ for (int i = 0; i < wtcount-1; i ++)
         pix.load(filename);
         pix.scaled(ui->lblImg->size(), Qt::KeepAspectRatio);
         ui->lblImg->setPixmap(pix);
-        ui->listHour->setCurrentRow(picked);
+        ui->listHour->setCurrentRow(picked-1);
     }
 
 //    else if(hour==sunrisehour+2 || hour == sunrisehour+1){
